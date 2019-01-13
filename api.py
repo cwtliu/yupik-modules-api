@@ -222,7 +222,8 @@ class Audio(Resource):
         filename = url_for('static', filename='exercise1/'+word+'.mp3')
         print(filename)
         mp3 = urllib.urlopen(filename).read()
-        a = AudioSegment.from_mp3(BytesIO(mp3))
+        x = BytesIO(mp3)
+        a = AudioSegment.from_mp3(x)
         a.export('/tmp/test.mp3', format='mp3')
         return send_file('/tmp/test.mp3', mimetype='audio/mp3')
 
