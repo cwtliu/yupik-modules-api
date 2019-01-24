@@ -20,7 +20,7 @@ from flask_s3 import FlaskS3, url_for
 app = Flask(__name__)
 # app.wsgi_app = WhiteNoise(app.wsgi_app)
 # app.wsgi_app.add_files('static/')
-app.config['FLASKS3_BUCKET_NAME'] = 'yupik-modules-static'
+app.config['FLASKS3_BUCKET_NAME'] = 'yupikmodulesweb'
 # app.config['FLASKS3_REGION'] = 'DEFAULT'
 app.config['FLASKS3_DEBUG'] = True
 app.config['FLASKS3_HEADERS'] = {
