@@ -226,6 +226,16 @@ class Audio(Resource):
         a.export('/tmp/test.mp3', format='mp3')
         return send_file('/tmp/test.mp3', mimetype='audio/mp3')
 
+# class AudioZip(Resource):
+#     @cors.crossdomain(origin='*')
+#     def get(self, word):
+#         filename = url_for('static', filename='exercise1/'+word+'.zip')
+#         print(filename)
+#         mp3zip = urllib.urlopen(filename).read()
+#         # a = AudioSegment.from_mp3(BytesIO(mp3))
+#         mp3zip.export('/tmp/test.zip', format='zip')
+#         return send_file('/tmp/test.zip', mimetype='audio/zip')
+
 # api.add_resource(Word, '/word/<string:word>')
 # api.add_resource(WordsList, '/word/all', '/')
 # 
@@ -236,6 +246,8 @@ class Audio(Resource):
 # api.add_resource(Concatenator, '/concat')
 # api.add_resource(TTS, '/audiofiles_mp3_all_1/<string:word>')
 api.add_resource(Audio, '/audio/<string:word>')
+# api.add_resource(AudioZip, '/audio/<string:word>')
+
 
 @app.after_request
 def add_header(response):
