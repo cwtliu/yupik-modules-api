@@ -76,34 +76,34 @@ parser_api.add_argument('postbase', type=str, action='append')
 #     def __init__(self, *args, **kwargs):
 #         super(Resource, self).__init__(*args, **kwargs)
 #         print "Nouns init"
-# 
+#
 #     @cors.crossdomain(origin='*')
 #     def get(self):
 #         return jsonify(nouns)
-# 
-# 
+#
+#
 # class Verbs(Resource):
 #     def __init__(self, *args, **kwargs):
 #         super(Resource, self).__init__(*args, **kwargs)
-# 
+#
 #     @cors.crossdomain(origin='*')
 #     def get(self):
 #         return jsonify(verbs)
-# 
-# 
+#
+#
 # class Postbases(Resource):
 #     def __init__(self, *args, **kwargs):
 #         super(Resource, self).__init__(*args, **kwargs)
-# 
+#
 #     @cors.crossdomain(origin='*')
 #     def get(self):
 #         return jsonify(postbases)
-# 
-# 
+#
+#
 # class Endings(Resource):
 #     def __init__(self, *args, **kwargs):
 #         super(Resource, self).__init__(*args, **kwargs)
-# 
+#
 #     @cors.crossdomain(origin='*')
 #     def get(self):
 #         return jsonify(endings)
@@ -112,18 +112,18 @@ parser_api.add_argument('postbase', type=str, action='append')
 # class Word(Resource):
 #     def __init__(self, *args, **kwargs):
 #         super(Resource, self).__init__(*args, **kwargs)
-# 
+#
 #     @cors.crossdomain(origin='*')
 #     def get(self, word):
 #         print(word)
 #         return jsonify(new_dict0[word])
-# 
-# 
+#
+#
 # class WordsList(Resource):
 #     def __init__(self, *args, **kwargs):
 #         super(Resource, self).__init__(*args, **kwargs)
 #         print "WordsList init"
-# 
+#
 #     @cors.crossdomain(origin='*')
 #     def get(self):
 #         return jsonify(new_dict)
@@ -154,7 +154,7 @@ parser_api.add_argument('postbase', type=str, action='append')
 #                 if removedindex < values:
 #                     indexes[k] -= 1
 #         return jsonify({'concat': deconvert(word), 'indexes': indexes})
-# 
+#
 #     def first_index(self, new_word, old_word):
 #         """
 #         Returns first index different between both words
@@ -181,7 +181,7 @@ parser_api.add_argument('postbase', type=str, action='append')
 #     #     cbn.build(po, '/tmp/test.mp3', 'concatenate')
 #     #     #return jsonify({'url': 'test.mp3'})
 #     #     return send_file('/tmp/test.mp3', mimetype='audio/mp3')
-# 
+#
 #     @cors.crossdomain(origin='*')
 #     def get(self, word):
 #         parsed_output = parser(word)
@@ -196,7 +196,7 @@ parser_api.add_argument('postbase', type=str, action='append')
 #         # cbn.build(po, '/tmp/test.mp3', 'concatenate')
 #         # #return jsonify({'url': 'test.mp3'})
 #         # return send_file('/tmp/test.mp3', mimetype='audio/mp3')
-# 
+#
 #         print(parsed_output)
 #         final_audio = None
 #         for i, k in enumerate(parsed_output):
@@ -226,19 +226,22 @@ class Audio(Resource):
         a.export('/tmp/test.mp3', format='mp3')
         return send_file('/tmp/test.mp3', mimetype='audio/mp3')
 
-# class AudioZip(Resource):
-#     @cors.crossdomain(origin='*')
-#     def get(self, word):
-#         filename = url_for('static', filename='exercise1/'+word+'.zip')
-#         print(filename)
-#         mp3zip = urllib.urlopen(filename).read()
-#         # a = AudioSegment.from_mp3(BytesIO(mp3))
-#         mp3zip.export('/tmp/test.zip', format='zip')
-#         return send_file('/tmp/test.zip', mimetype='audio/zip')
+
+class AudioZip(Resource):
+    @cors.crossdomain(origin='*')
+    def get(self, word):
+        filename = url_for('static', filename='exercise1/'+word+'.zip')
+        print(filename)
+        mp3zip = urllib.urlopen(filename).read()
+        # Write to temp file
+        output = open('/tmp/test.zip', 'w')
+        output.write(mp3zip)
+        output.close()
+        return send_file('/tmp/test.zip', mimetype='application/zip')
 
 # api.add_resource(Word, '/word/<string:word>')
 # api.add_resource(WordsList, '/word/all', '/')
-# 
+#
 # api.add_resource(Nouns, '/noun/all')
 # api.add_resource(Verbs, '/verb/all')
 # api.add_resource(Postbases, '/postbase/all')
@@ -246,7 +249,7 @@ class Audio(Resource):
 # api.add_resource(Concatenator, '/concat')
 # api.add_resource(TTS, '/audiofiles_mp3_all_1/<string:word>')
 api.add_resource(Audio, '/audio/<string:word>')
-# api.add_resource(AudioZip, '/audio/<string:word>')
+api.add_resource(AudioZip, '/audio/zip/<string:word>')
 
 
 @app.after_request
