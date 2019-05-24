@@ -244,10 +244,10 @@ class ImageZip(Resource):
     def get(self, word):
         filename = url_for('static', filename='exercise1/'+word+'.zip')
         print(filename)
-        mp3zip = urllib.urlopen(filename).read()
+        audiozip = urllib.urlopen(filename).read()
         # Write to temp file
         output = open('/tmp/test.zip', 'w')
-        output.write(mp3zip)
+        output.write(audiozip)
         output.close()
         return send_file('/tmp/test.zip', mimetype='application/zip')
 
